@@ -1,17 +1,22 @@
-from pydantic import BaseModel
+from datetime import datetime
+
+from pydantic import BaseModel, HttpUrl
 
 
-class URLBase(BaseModel):
-    target_url: str
+class URLCreate(BaseModel):
+    url: HttpUrl
 
 
-class URL(URLBase):
-    is_active: bool
-    clicks: int
+class URLResponse(BaseModel):
+    id: str
+    url: HttpUrl
+    short_code: str
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         orm_mode = True
 
 
-class URLInfo(URL):
-    url: str
+class URLStatsResponse(URLResponse):
+    access_count: int
